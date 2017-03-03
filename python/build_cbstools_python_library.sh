@@ -5,8 +5,13 @@
 # 1.create a jar file with all the classes:
 # jar cvf intensity.jar de/mpg/cbs/python/IntensityBackgroundEstimator.class de/mpg/cbs/utilities/Numerics.class de/mpg/cbs/libraries/ImageStatistics.class
 
-# hard-coded path for safety
-cd /home/user/Code/github/cbstools-public/
+# make sure we are in toplevel directory
+cd "$(dirname "$0")/.." || exit
+TOPDIR=$(pwd)
+if ! grep -q "CBS High-Res Brain Processing Tools" README.md; then
+    echo "error $0: seems we are not in cbstools-public toplevel directory" >&2
+    exit 1
+fi
 
 # include ONLY the classes to manipulate via python (the other ones are handled within Java, which simplifies the dependencies
 rm -f cbstools.jar
@@ -17,7 +22,7 @@ rm -f cbstools-lib.jar
 jar cvf cbstools-lib.jar de/mpg/cbs/*/*.class
 
 # 2.export target library path to python: important for isntallation
-export PYTHONPATH=$PYTHONPATH:/home/user/Code/github/cbstools-public/python
+export PYTHONPATH=$PYTHONPATH:$TOPDIR/python
 
 # 3.compile with jcc:
 # python -m jcc --jar intensity.jar --python intensity --build --classpath /home/pilou/Code/cbs/bazin --install --install-dir /home/pilou/Code/cbs/bazin/pylibs/
