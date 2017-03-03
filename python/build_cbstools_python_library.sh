@@ -23,12 +23,12 @@ if ! grep -q "CBS High-Res Brain Processing Tools" README.md; then
 fi
 
 # include ONLY the classes to manipulate via python (the other ones are handled within Java, which simplifies the dependencies
-rm -f cbstools.jar
-jar cvf cbstools.jar de/mpg/cbs/core/*/*.class
+rm -f cbstools.jar || exit
+jar cvf cbstools.jar de/mpg/cbs/core/*/*.class || exit
 
 # all the used libraries must be included in the python distribution...
-rm -f cbstools-lib.jar
-jar cvf cbstools-lib.jar de/mpg/cbs/*/*.class
+rm -f cbstools-lib.jar || exit
+jar cvf cbstools-lib.jar de/mpg/cbs/*/*.class || exit
 
 # 2.export target library path to python: important for isntallation
 export PYTHONPATH="$target_dir:$PYTHONPATH"
@@ -40,6 +40,6 @@ export PYTHONPATH="$target_dir:$PYTHONPATH"
 #python -m jcc --jar cbstools.jar --include cbstools-lib.jar --include /home/pilou/Code/cbs/bazin/lib/commons-math3-3.5.jar --python cbstools --version 3.1.0 --build --classpath $CLASSPATH --maxheap 5000M --install --install-dir /home/pilou/Code/github/cbstools/python/
 
 # no need for extra dependencies if all the code is included as jars (makes it independent from external installations, but requires to port or include all dependencies...)
-python -m jcc --jar cbstools.jar --include cbstools-lib.jar --include lib/commons-math3-3.5.jar --include lib/Jama-mipav.jar --python cbstoolsjcc --version 3.1.0.1 --build --maxheap 5000M --install --install-dir "$target_dir"
+python -m jcc --jar cbstools.jar --include cbstools-lib.jar --include lib/commons-math3-3.5.jar --include lib/Jama-mipav.jar --python cbstoolsjcc --version 3.1.0.1 --build --maxheap 5000M --install --install-dir "$target_dir" || exit
 
-
+echo "make sure '$target_dir' is in your PYTHONPATH" >&2
