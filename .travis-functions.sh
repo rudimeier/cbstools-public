@@ -39,8 +39,31 @@ function travis_jdk_switcher
 	fi
 }
 
+function install_deps_osx
+{
+	brew update >/dev/null
+
+	brew install python3 || return
+	mkdir ~/bin || return
+	ln -s $(which python3) $HOME/bin/python || return
+	ln -s $(which pip3) $HOME/bin/pip || return
+	hash -r
+}
+
+function install_deps_linux
+{
+	true
+}
+
+
 function travis_install_script
 {
+	if [ "$TRAVIS_OS_NAME" = "osx" ]; then
+		install_deps_osx || return
+	else
+		install_deps_linux || return
+	fi
+
 	# installing jcc requires not too old setuptools
 	pip install --upgrade setuptools || return
 	git clone --quiet git://github.com/rudimeier/jcc.git ~/builds/jcc || return

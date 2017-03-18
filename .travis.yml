@@ -7,15 +7,11 @@ os:
   - linux
 
 python:
-  - "2.7"
-  - "3.3"
   - "3.6"
 
 env:
   matrix:
-    - TESTJDK="openjdk7"
     - TESTJDK="oraclejdk7"
-    - TESTJDK="oraclejdk8"
 
 matrix:
   include:
