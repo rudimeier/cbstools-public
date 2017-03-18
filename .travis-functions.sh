@@ -110,6 +110,7 @@ function travis_build_python
 {
 	python --version
 	python -m jcc --jar cbstools.jar \
+	       --shared \
 	       --include cbstools-lib.jar \
 	       --include lib/commons-math3-3.5.jar \
 	       --include lib/Jama-mipav.jar \
