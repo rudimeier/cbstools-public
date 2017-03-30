@@ -58,7 +58,7 @@ function travis_install_script
 	mkdir -p "$DEPSDIR" || return
 	wget -P "$DEPSDIR" "http://$SECRET_DL_URL/$MIPAV_BASENAME.tar.xz" || return
 	wget -O "$JIST_CRUISE" \
-		"http://www.nitrc.org/frs/download.php/7246/JIST-CRUISE-2014Dec12-03-37PM.jar" || return
+		"http://$SECRET_DL_URL/JIST-CRUISE-2017Mar30-12-05PM.jar" || return
 
 	tar -xf "$DEPSDIR/$MIPAV_BASENAME.tar.xz" -C "/var/tmp"|| return
 }
@@ -77,7 +77,7 @@ function travis_build_java
 	javac -cp "$JAVAC_CP" $JAVAC_OPTS de/mpg/cbs/core/*/*.java || return
 	javac -cp "$JAVAC_CP" $JAVAC_OPTS de/mpg/cbs/*/*.java || return
 	#javac -cp "$JAVAC_CP" $JAVAC_OPTS de/mpg/cbs/jist/*/*.java || return
-	#javac -cp "$JAVAC_CP" $JAVAC_OPTS edu/jhu/ece/iacl/jist/*/*.java || return
+	javac -cp "$JAVAC_CP" $JAVAC_OPTS edu/jhu/ece/iacl/jist/*/*.java || return
 
 	jar cvf cbstools.jar de/mpg/cbs/core/*/*.class || return
 	jar cvf cbstools-lib.jar de/mpg/cbs/*/*.class || return
