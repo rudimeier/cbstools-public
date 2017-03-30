@@ -43,7 +43,7 @@ function travis_install_script
 {
 	# installing jcc requires not too old setuptools
 	pip install --upgrade setuptools || return
-	git clone --quiet git://github.com/rudimeier/jcc.git ~/builds/jcc || return
+	git clone --quiet -b travis-trunk git://github.com/rudimeier/jcc.git ~/builds/jcc || return
 	pushd ~/builds/jcc || return
 	JCC_JDK="$JAVA_HOME" python setup.py install || return
 	popd
